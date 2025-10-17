@@ -13,17 +13,16 @@ class _AddPostPageState extends State<AddPostPage> {
   final _formKey = GlobalKey<FormState>();
   String? _imageUrl;
   bool _isLoading = false;
+  String? _selectedValue;
 
   final _titleController = TextEditingController();
   final _durationController = TextEditingController();
-  final _difficultyController = TextEditingController();
   final _imageUrlController = TextEditingController();
 
   @override
   void dispose() {
     _titleController.dispose();
     _durationController.dispose();
-    _difficultyController.dispose();
     _imageUrlController.dispose();
     super.dispose();
   }
@@ -102,7 +101,6 @@ class _AddPostPageState extends State<AddPostPage> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Lien de l'image
                   TextFormField(
                     controller: _imageUrlController,
                     enabled: !_isLoading,
@@ -132,7 +130,6 @@ class _AddPostPageState extends State<AddPostPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Titre de la recette
                   TextFormField(
                     controller: _titleController,
                     enabled: !_isLoading,
@@ -147,15 +144,11 @@ class _AddPostPageState extends State<AddPostPage> {
                       if (value.trim().length < 3) {
                         return "Le titre doit contenir au moins 3 caractères";
                       }
-                      if (value.trim().length > 100) {
-                        return "Le titre est trop long (max 100 caractères)";
-                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // Durée de la recette
                   TextFormField(
                     controller: _durationController,
                     enabled: !_isLoading,
@@ -176,33 +169,35 @@ class _AddPostPageState extends State<AddPostPage> {
                       if (duration <= 0) {
                         return "La durée doit être supérieure à 0";
                       }
-                      if (duration > 500) {
-                        return "La durée semble trop longue (max 500 min)";
-                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // Difficulté
-                  TextFormField(
-                    controller: _difficultyController,
-                    enabled: !_isLoading,
+                  DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
-                      labelText: 'Difficulté',
+                      labelText: 'Select an option',
                       border: OutlineInputBorder(),
                       hintText: 'Facile, Moyen ou Difficile',
                     ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "La difficulté est obligatoire";
-                      }
-                      final validDifficulties = ['facile', 'moyen', 'difficile'];
-                      if (!validDifficulties.contains(value.trim().toLowerCase())) {
-                        return "Doit être: Facile, Moyen ou Difficile";
-                      }
-                      return null;
-                    },
+                      initialValue: _selectedValue,
+                      items: ['Facile', 'Moyen', 'Difficile']
+                          .map((option) => DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedValue = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select an option';
+                        }
+                        return null;
+                      },
                   ),
                   const SizedBox(height: 32),
 
@@ -210,7 +205,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   ElevatedButton(
                     onPressed: _isLoading ? null : _submitForm,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 50),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: _isLoading
