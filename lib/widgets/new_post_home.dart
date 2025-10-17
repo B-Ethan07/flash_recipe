@@ -1,3 +1,4 @@
+import 'package:flash_recipe/screens/recipe_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class NewPostHome extends StatefulWidget {
@@ -140,9 +141,23 @@ class _NewPostHomeState extends State<NewPostHome> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Détail")
-                  ),]
+                        onPressed: () {
+                          // ← Navigation vers la page de détail
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipeDetailPage(
+                                title: title,
+                                duration: duration,
+                                difficulty: difficulty,
+                                imageUrl: imageUrl,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text("Détail"),
+                      ),
+                    ]
                   ),
                 ],
               ),
