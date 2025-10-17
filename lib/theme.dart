@@ -17,6 +17,20 @@ class AppTheme {
       backgroundColor: _blue,
       foregroundColor: Colors.white,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      hoverColor: Colors.grey[100],
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade400),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _blue, width: 2),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: _blue,
@@ -47,6 +61,20 @@ class AppTheme {
       primary: _lightBlue,
       secondary: _blue,
       tertiary: _amber,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Color(0xFF1E1E1E),
+      hoverColor: Color(0xFF2A2A2A),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade700),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _lightBlue, width: 2),
+      ),
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: _blue,
