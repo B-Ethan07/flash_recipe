@@ -6,12 +6,6 @@
 
 ## Fonctionnalités
 
-### Authentification
-
-- Inscription et connexion par email/mot de passe
-- Connexion via Google Sign-In
-- Gestion de session utilisateur
-
 ### Pages principales
 
 - **Home** : Flux communautaire des recettes ajouté
