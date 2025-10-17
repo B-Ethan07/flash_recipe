@@ -1,4 +1,3 @@
-import 'package:flash_recipe/screens/main_screen.dart';
 import 'package:flash_recipe/widgets/custom_appbar.dart';
 import 'package:flash_recipe/widgets/new_post_home.dart';
 import 'package:flutter/material.dart';
