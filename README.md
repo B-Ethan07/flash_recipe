@@ -1,16 +1,50 @@
-# flash_recipe
+# Flash Recipe
 
-A new Flutter project.
+## Description
 
-## Getting Started
+**Flash Recipe est une plateforme communautaire permettant aux utilisateurs de documenter leurs recettes préférée.**
 
-This project is a starting point for a Flutter application.
+## Fonctionnalités
 
-A few resources to get you started if this is your first Flutter project:
+### Authentification
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Inscription et connexion par email/mot de passe
+- Connexion via Google Sign-In
+- Gestion de session utilisateur
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Pages principales
+
+- **Home** : Flux communautaire des recettes ajouté
+- **Détails** : Page détail de chaque recette via le bouton Détail
+- **Ajout** : formulaire de publication d'une recette (titre, durée, difficultées, image)
+
+
+### Interface
+
+- Support du mode sombre/clair
+- Navigation par onglets
+- Design responsive
+
+## Stack technique
+
+- **Flutter** : Framework mobile
+
+## Installation
+
+### Prérequis
+
+- Flutter SDK 3.0+
+
+### Configuration
+
+1. Cloner le repository :
+   ```bash
+   git clone https://github.com/B-Ethan07/wildsnap
+   cd flash_recipe
+   flutter pub get
+   ```
+
+2. Lancer l'application
+```bash
+flutter run
+```

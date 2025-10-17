@@ -10,6 +10,7 @@ class AddPostPage extends StatefulWidget {
 }
 
 class _AddPostPageState extends State<AddPostPage> {
+  final _formKey = GlobalKey<FormState>();
   String? _imageUrl;
   bool _isLoading = false;
 
@@ -40,6 +41,24 @@ class _AddPostPageState extends State<AddPostPage> {
     }
   }
 
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      Future.delayed(const Duration(seconds: 2), () {
+        setState(() {
+          _isLoading = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Recette postée avec succès !')),
+        );
+      });
+    }
+  }
+
   Widget _buildImagePreview() {
     if (_imageUrl == null || _imageUrl!.isEmpty) {
       return Center(
@@ -64,90 +83,151 @@ class _AddPostPageState extends State<AddPostPage> {
         children: [
           SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  height: 250,
-                  width: double.infinity,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    border: Border.all(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(12),
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUnfocus,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 250,
+                    width: double.infinity,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: _buildImagePreview(),
                   ),
-                  child: _buildImagePreview(),
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                // Boutons pour caméra et galerie
-                TextField(
-                  controller: _imageUrlController,
-                  enabled: !_isLoading,
-                  decoration: const InputDecoration(
-                    labelText: "Lien de l'image",
-                    border: OutlineInputBorder(),
-                    hintText: "https://example.com/image.jpg",
+                  // Lien de l'image
+                  TextFormField(
+                    controller: _imageUrlController,
+                    enabled: !_isLoading,
+                    decoration: const InputDecoration(
+                      labelText: "Lien de l'image",
+                      border: OutlineInputBorder(),
+                      hintText: "https://example.com/image.jpg",
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _imageUrl = value.trim();
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Veuillez entrer une URL d'image";
+                      }
+                      final uri = Uri.tryParse(value);
+                      if (uri == null || !uri.hasScheme) {
+                        return "URL invalide (doit commencer par http:// ou https://)";
+                      }
+                      if (!uri.scheme.startsWith('http')) {
+                        return "L'URL doit commencer par http:// ou https://";
+                      }
+                      return null;
+                    },
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      _imageUrl = value.trim();
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                // Formulaire
-                TextField(
-                  controller: _titleController,
-                  enabled: !_isLoading,
-                  decoration: const InputDecoration(
-                    labelText: "Titre de la recette",
-                    border: OutlineInputBorder(),
+                  // Titre de la recette
+                  TextFormField(
+                    controller: _titleController,
+                    enabled: !_isLoading,
+                    decoration: const InputDecoration(
+                      labelText: "Titre de la recette",
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Le titre est obligatoire";
+                      }
+                      if (value.trim().length < 3) {
+                        return "Le titre doit contenir au moins 3 caractères";
+                      }
+                      if (value.trim().length > 100) {
+                        return "Le titre est trop long (max 100 caractères)";
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _durationController,
-                  enabled: !_isLoading,
-                  decoration: const InputDecoration(
-                    labelText: 'Durée de la recette',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _difficultyController,
-                  enabled: !_isLoading,
-                  decoration: const InputDecoration(
-                    labelText: 'Difficultée',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 3,
-                ),
-                const SizedBox(height: 32),
+                  const SizedBox(height: 16),
 
-                // Bouton Post
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    textStyle: const TextStyle(fontSize: 18),
+                  // Durée de la recette
+                  TextFormField(
+                    controller: _durationController,
+                    enabled: !_isLoading,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Durée de la recette (en minutes)',
+                      border: OutlineInputBorder(),
+                      hintText: 'Ex: 25',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "La durée est obligatoire";
+                      }
+                      final duration = int.tryParse(value.trim());
+                      if (duration == null) {
+                        return "Veuillez entrer un nombre valide";
+                      }
+                      if (duration <= 0) {
+                        return "La durée doit être supérieure à 0";
+                      }
+                      if (duration > 500) {
+                        return "La durée semble trop longue (max 500 min)";
+                      }
+                      return null;
+                    },
                   ),
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
-                          ),
-                        )
-                      : const Text('Poster'),
-                ),
-              ],
+                  const SizedBox(height: 16),
+
+                  // Difficulté
+                  TextFormField(
+                    controller: _difficultyController,
+                    enabled: !_isLoading,
+                    decoration: const InputDecoration(
+                      labelText: 'Difficulté',
+                      border: OutlineInputBorder(),
+                      hintText: 'Facile, Moyen ou Difficile',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "La difficulté est obligatoire";
+                      }
+                      final validDifficulties = ['facile', 'moyen', 'difficile'];
+                      if (!validDifficulties.contains(value.trim().toLowerCase())) {
+                        return "Doit être: Facile, Moyen ou Difficile";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Bouton Post
+                  ElevatedButton(
+                    onPressed: _isLoading ? null : _submitForm,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      textStyle: const TextStyle(fontSize: 18),
+                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.white,
+                        ),
+                      ),
+                    )
+                        : const Text('Poster'),
+                  ),
+                ],
+              ),
             ),
           ),
           if (_isLoading)

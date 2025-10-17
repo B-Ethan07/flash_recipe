@@ -32,13 +32,13 @@ class _NewPostHomeState extends State<NewPostHome> {
           title: 'Tarte aux pommes',
           duration: '45min',
           difficulty: 'Moyen',
-          imageUrl: 'https://images.pexels.com/photos/1120970/pexels-photo-1120970.jpeg',
+          imageUrl: 'https://cdn.pixabay.com/photo/2020/09/25/15/13/pie-5601656_960_720.jpg',
         ),
       ],
     );
   }
 
-  Widget _buildRecipeCard({
+  _buildRecipeCard({
     required bool isDark,
     required bool isWeb,
     required String title,
