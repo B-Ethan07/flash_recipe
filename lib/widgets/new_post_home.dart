@@ -44,6 +44,28 @@ class _NewPostHomeState extends State<NewPostHome> {
             imageUrl:
             'https://cdn.pixabay.com/photo/2020/09/25/15/13/pie-5601656_960_720.jpg',
           ),
+          _buildRecipeCard(
+            context: context,
+            isDark: isDark,
+            width: isWeb ? (screenWidth / 2) - 30 : screenWidth - 40,
+            height: isWeb ? screenHeight / 1.8 : screenHeight / 1.5,
+            title: 'Lasagne',
+            duration: '125min',
+            difficulty: 'Moyen',
+            imageUrl:
+            'https://cdn.pixabay.com/photo/2021/02/06/11/51/food-5987888_960_720.jpg',
+          ),
+          _buildRecipeCard(
+            context: context,
+            isDark: isDark,
+            width: isWeb ? (screenWidth / 2) - 30 : screenWidth - 40,
+            height: isWeb ? screenHeight / 1.8 : screenHeight / 1.5,
+            title: 'Ramen au boeuf',
+            duration: '45min',
+            difficulty: 'Moyen',
+            imageUrl:
+            'https://cdn.pixabay.com/photo/2022/05/10/18/50/ramen-7187810_960_720.jpg',
+          ),
         ],
       ),
     );
