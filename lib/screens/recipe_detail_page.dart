@@ -22,7 +22,7 @@ class RecipeDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -93,6 +93,7 @@ class RecipeDetailPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

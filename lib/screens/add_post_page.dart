@@ -176,7 +176,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
                   DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
-                      labelText: 'Select an option',
+                      labelText: 'Selectionnez la difficulté',
                       border: OutlineInputBorder(),
                       hintText: 'Facile, Moyen ou Difficile',
                     ),
@@ -199,13 +199,13 @@ class _AddPostPageState extends State<AddPostPage> {
                         return null;
                       },
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
 
                   // Bouton Post
                   ElevatedButton(
                     onPressed: _isLoading ? null : _submitForm,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 50),
+                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: _isLoading
